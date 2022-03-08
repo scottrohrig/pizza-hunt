@@ -43,7 +43,10 @@ const pizzaController = {
 
   // update a pizza
   updatePizza( { params, body }, res ) {
-    Pizza.findOneAndUpdate( { _id: params.id }, body, { new: true } )
+    Pizza.findOneAndUpdate(
+      { _id: params.id },
+      body,
+      { new: true } )
       .then( updatedPizzaData => {
         if ( !updatedPizzaData ) { res.status( 404 ).json( { message: 'Not a Pizza' } ); return; }
         res.json( updatedPizzaData );

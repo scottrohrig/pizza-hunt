@@ -1,4 +1,5 @@
 const { Pizza, Comment } = require( '../models' );
+const { db } = require( '../models/Comment' );
 
 const commentController = {
   // add comment and assign to pizza
@@ -24,6 +25,23 @@ const commentController = {
 
   },
 
+  // push reply onto comment
+  addReply( { params, body }, res ) {
+    Comment.findOneAndUpdate(
+      { _id: params.commentId },
+      { $push: { replies: body } },
+      { new: true }
+    )
+      .then( dbPizzaData => {
+        if ( !dbPizzaData ) {
+          res.status( 404 ).json( { message: 'not a pizza' } );
+          return;
+        }
+        res.json( dbPizzaData );
+      } )
+      .catch( err => res.status( 500 ).json( err ) );
+  },
+
   // remove comment and update associated pizza
   removeComment( { params }, res ) {
     Comment.findOneAndDelete( { _id: params.commentId } )
@@ -44,6 +62,18 @@ const commentController = {
         }
         res.json( dbPizzaData );
       } )
+      .catch( err => res.json( err ) );
+  },
+
+  // remove reply from comment's replies
+  removeReply( { params }, res ) {
+    Comment.findByIdAndUpdate(
+      { _id: params.commentId },
+      // remove the specific reply from the replies array matching the replyId
+      { $pull: { replies: { replyId: params.replyId } } },
+      { new: true }
+    )
+      .then( dbPizzaData => res.json( dbPizzaData ) )
       .catch( err => res.json( err ) );
   }
 };

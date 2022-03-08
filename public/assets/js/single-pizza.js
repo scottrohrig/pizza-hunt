@@ -143,6 +143,23 @@ function handleNewReplySubmit( event ) {
   }
 
   const formData = { writtenBy, replyBody };
+
+  fetch( `/api/comments/${pizzaId}/${commentId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( formData )
+  } )
+    .then( response => {
+      ( response.ok ) ? response.json() : ( function () { throw new Error( 'Something went wrong!' ); } );
+    } )
+    .then( commentResponse => {
+      console.log( commentResponse );
+      location.reload();
+    } )
+    .catch( err => console.log( err ) );
 }
 
 $backBtn.addEventListener( 'click', function () {
