@@ -65,7 +65,11 @@ const handlePizzaSubmit = event => {
       // modal
       console.log( postResponse );
     } )
-    .catch( err => console.log( err ) );
+    .catch( err => {
+      console.log( err );
+      // if offline, store record in object store. source => ./idb.js
+      saveRecord( formData );
+    } );
 };
 
 $pizzaForm.addEventListener( 'submit', handlePizzaSubmit );
