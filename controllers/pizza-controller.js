@@ -19,11 +19,11 @@ const pizzaController = {
   // get by id
   getPizzaById( { params }, res ) {
     Pizza.findOne( { _id: params.id } )
-      .populate({
+      .populate( {
         path: 'comments',
         select: '-__v'
-      })
-      .select('-__v')
+      } )
+      .select( '-__v' )
       .then( dbPizzaData => {
         if ( !dbPizzaData ) {
           res.status( 404 ).json( { message: 'Not a pizza' } );
@@ -46,7 +46,11 @@ const pizzaController = {
     Pizza.findOneAndUpdate(
       { _id: params.id },
       body,
-      { new: true } )
+      {
+        new: true,
+        // tell mongoose to validate new info
+        runValidators: true
+      } )
       .then( updatedPizzaData => {
         if ( !updatedPizzaData ) { res.status( 404 ).json( { message: 'Not a Pizza' } ); return; }
         res.json( updatedPizzaData );
