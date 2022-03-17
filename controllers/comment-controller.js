@@ -1,5 +1,4 @@
 const { Pizza, Comment } = require( '../models' );
-const { db } = require( '../models/Comment' );
 
 const commentController = {
   // add comment and assign to pizza
@@ -11,7 +10,7 @@ const commentController = {
         return Pizza.findOneAndUpdate(
           { _id: params.pizzaId },
           { $push: { comments: _id } },
-          { new: true }
+          { new: true, runValidators: true }
         );
       } )
       .then( dbPizzaData => {
@@ -22,7 +21,6 @@ const commentController = {
         res.json( dbPizzaData );
       } )
       .catch( err => res.status( 500 ).json( err ) );
-
   },
 
   // push reply onto comment

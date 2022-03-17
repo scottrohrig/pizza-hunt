@@ -40,7 +40,7 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    createAt: {
+    createdAt: {
       type: Date,
       default: Date.now,
       get: ( createdAtVal ) => dateFormat( createdAtVal )
