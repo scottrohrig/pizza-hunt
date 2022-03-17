@@ -21,7 +21,7 @@ const PizzaSchema = new Schema(
     size: {
       type: String,
       default: 'Large',
-      enum: [ 'Personal', 'Small', 'Medium', 'Large', 'Exrea Large' ],
+      enum: [ 'Personal', 'Small', 'Medium', 'Large', 'Extra Large' ],
       default: 'Large'
     },
     toppings: [],
