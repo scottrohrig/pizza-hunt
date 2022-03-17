@@ -32,6 +32,7 @@ request.onerror = function ( event ) {
 };
 
 function saveRecord( record ) {
+  console.log('Saving Record...', record);
   const transaction = db.transaction( [ 'new_pizza' ], 'readwrite' );
 
   // access obj store for 'new_pizza'
@@ -63,7 +64,7 @@ function uploadPizza() {
         },
         body: JSON.stringify( getAll.result )
       } )
-        .then( response = response.json() )
+        .then( response => response.json() )
         .then( serverResponse => {
           if ( serverResponse.message ) {
             throw new Error( serverResponse );

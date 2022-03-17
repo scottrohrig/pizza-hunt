@@ -66,7 +66,7 @@ const handlePizzaSubmit = event => {
       console.log( postResponse );
     } )
     .catch( err => {
-      console.log( err );
+      console.log( err, 'offline' );
       // if offline, store record in object store. source => ./idb.js
       saveRecord( formData );
     } );
